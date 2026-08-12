@@ -1,1158 +1,803 @@
-<!doctype html>
-<html lang="en">
- <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR Arshad - Loading</title>
-  <script src="/_sdk/element_sdk.js"></script>
-  <style>
- body {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  height: 100%;
-}
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>দাম্পত্য রসায়ন - মেগা ই-বুক বান্ডেল</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    html {
-      height: 100%;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    /* Navigation Bar */
-    .navbar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      background: rgba(10, 10, 10, 0.9);
-      backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(255, 122, 0, 0.2);
-      z-index: 1000;
-      padding: 1rem 0;
-      transition: all 0.3s ease;
-    }
-
-    .navbar-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo {
-      font-size: 1.8rem;
-      font-weight: 800;
-      color: #ff7a00;
-      letter-spacing: -1px;
-      text-decoration: none;
-    }
-
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 2rem;
-      margin: 0;
-      padding: 0;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #ffffff;
-      font-weight: 500;
-      transition: color 0.3s ease;
-      position: relative;
-    }
-
-    .nav-links a:hover {
-      color: #ff7a00;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: -5px;
-      left: 0;
-      background-color: #ff7a00;
-      transition: width 0.3s ease;
-    }
-
-    .nav-links a:hover::after {
-      width: 100%;
-    }
-
-    .cta-nav {
-        background: #ffffff;
-  color: #ff7a00;
-  padding: 0.7rem 1.5rem;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  border: 2px solid #ffffff;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-.cta-nav::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-  transition: left 0.7s ease;
-  z-index: -1;
-}
-
-.cta-nav:hover {
-  background: #ff7a00;
-  color: #ffffff;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
-}
-
-.cta-nav:hover::before {
-  left: 100%;
-}
-
-.cta-nav::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, #ff7a00 0%, #ff9a3c 100%);
-  z-index: -1;
-  transition: transform 0.5s ease;
-  transform: scaleX(0);
-  transform-origin: right;
-}
-
-.cta-nav:hover {
-  color: #ffffff;
-}
-
-.cta-nav:hover::before {
-  transform: scaleX(1);
-  transform-origin: left;
-    }
-
-    .cta-nav:hover {
-      background: linear-gradient(135deg, #ff8c1a 0%, #ffb347 100%);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 122, 0, 0.3);
-    }
-
-    /* Mobile menu */
-    .menu-toggle {
-      display: none;
-      cursor: pointer;
-      font-size: 1.5rem;
-      color: #ffffff;
-    }
-
-    /* Loading Screen */
-    .loading-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #2d1b69 0%, #1a0f3d 50%, #000000 100%);
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.8s ease, visibility 0.8s ease;
-    }
-
-    .loading-screen.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .loading-content {
-      text-align: center;
-      animation: fadeInUp 1s ease-out;
-    }
-
-   .loading-name {
-      font-size: 4rem;
-      font-weight: 800;
-      letter-spacing: -2px;
-      text-align: center;
-
-     
-      text-shadow: none;
-
-      /* Gradient text */
-      background: linear-gradient(135deg, #ff7a00 0%, #ff9a3c 50%, #ffb347 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-
-      /* Animated gradient */
-      background-size: 200% 200%;
-      animation: gradientShift 3s ease-in-out infinite;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    /* Animated Spinner */
-    .loading-spinner {
-      width: 80px;
-      height: 80px;
-      border: 4px solid rgba(255, 122, 0, 0.2);
-      border-top: 4px solid #ff7a00;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 2rem;
-      box-shadow: 
-        0 0 20px rgba(255, 122, 0, 0.4),
-        inset 0 0 20px rgba(255, 122, 0, 0.1);
-    }
-
-    /* Progress Bar Alternative */
- /* Progress Bar Container */
-.loading-progress-container {
-  width: 300px;
-  height: 8px;
-  background: rgba(255, 122, 0, 0.2);
-  border-radius: 10px;
-  overflow: hidden;
-  margin: 2rem auto 0;
-  box-shadow: 
-    0 0 15px rgba(255, 122, 0, 0.4),
-    inset 0 0 10px rgba(0, 0, 0, 0.3);
-}
-
-/* Progress Bar */
-.loading-progress-bar {
-  height: 100%;
-  background: linear-gradient(90deg, #ff7a00, #ff9a3c, #ffb347);
-  border-radius: 10px;
-  width: 0%;
-  transition: width 0.3s ease;
-  box-shadow: 0 0 20px rgba(255, 122, 0, 0.8);
-}
-
-.loading-text {
-  color: #ff9a3c;
-  font-size: 1.2rem;
-  font-weight: 500;
-  margin-top: 2rem;
-  opacity: 0.8;
-  animation: pulse 1.5s ease-in-out infinite;
-}
-
-    .loading-text {
-      color: #ff9a3c;
-      font-size: 1.2rem;
-      font-weight: 500;
-      margin-top: 1.5rem;
-      opacity: 0.8;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    /* Main Content */
-.main-content {
-  min-height: 100vh;
-  background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-  color: #ffffff;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 1s ease 0.3s, visibility 1s ease 0.3s;
-  overflow-y: auto;
-}
-
-.main-content.visible {
-  opacity: 1;
-  visibility: visible;
-}
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* Hero Section */
-    .hero-section {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 4rem 2rem;
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #2d1b69 100%);
-    background-image: url('YOUR_IMAGE_DIRECT_URL_HERE'); 
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Hind Siliguri"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            900: '#3D0D19', 
+                            800: '#521222', 
+                            700: '#6B182C', 
+                            gold: '#EBB65B',
+                            goldDark: '#CFA04E',
+                            cream: '#FAFAF5',
+                            creamDark: '#F0EFE6',
+                        }
+                    },
+                    backgroundImage: {
+                        'hero-pattern': "url('data:image/svg+xml,%3Csvg width=\\'100\\'%20height=\\'100\\'%20xmlns=\\'http://www.w3.org/2000/svg\\'%3E%3Cpath d=\\'M0 0h100v100H0z\\' fill=\\'%233D0D19\\'/%3E%3Cpath d=\\'M50 20a30 30 0 1 0 0 60 30 30 0 1 0 0-60m0 10a20 20 0 1 1 0 40 20 20 0 1 1 0-40\\' stroke=\\'rgba(235,182,91,0.05)\\' fill=\\'none\\' stroke-width=\\'2\\'/%3E%3Cpath d=\\'M150 20a30 30 0 1 0 0 60 30 30 0 1 0 0-60m0 10a20 20 0 1 1 0 40 20 20 0 1 1 0-40\\' stroke=\\'rgba(235,182,91,0.05)\\' fill=\\'none\\' stroke-width=\\'2\\'/%3E%3Cpath d=\\'M-50 20a30 30 0 1 0 0 60 30 30 0 1 0 0-60m0 10a20 20 0 1 1 0 40 20 20 0 1 1 0-40\\' stroke=\\'rgba(235,182,91,0.05)\\' fill=\\'none\\' stroke-width=\\'2\\'/%3E%3C/svg%3E')",
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body { font-family: 'Hind Siliguri', sans-serif; background-color: #FAFAF5; color: #1f2937; }
         
-    background-size: cover; 
-    background-position: center; 
-    background-attachment: fixed; 
-
-    position: relative; 
-    z-index: 1;
-}
-
-    .hero-content {
-      max-width: 800px;
-    }
-
-    .hero-title {
-  font-size: 4.5rem;
-  font-weight: 800;
-  margin: 0 0 1rem;
-  letter-spacing: -1px;
-  
-  /* Remove glow effect */
-  text-shadow: none;
-  animation: none;
-  
-  /* Gradient text with animation */
-  background: linear-gradient(135deg, #ff7a00 0%, #ff9a3c 25%, #ffb347 50%, #ff9a3c 75%, #ff7a00 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 200% 200%;
-  animation: titleGradientShift 4s ease-in-out infinite;
-}
-
-@keyframes titleGradientShift {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-    .hero-subtitle {
-      font-size: 1.8rem;
-      color: #ff9a3c;
-      margin: 0 0 1.5rem;
-      font-weight: 300;
-    }
-
-    .hero-description {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin: 0 0 3rem;
-      line-height: 1.6;
-    }
-
-    .hero-buttons {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    .cta-primary {
-      padding: 1rem 2.5rem;
-      background: linear-gradient(135deg, #ff7a00 0%, #ff9a3c 100%);
-      color: #ffffff;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      border: 2px solid rgba(255, 122, 0, 0.3);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      box-shadow: 
-        0 8px 32px rgba(255, 122, 0, 0.3),
-        0 4px 16px rgba(255, 122, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .cta-primary:hover {
-      background: linear-gradient(135deg, #ff8c1a 0%, #ffb347 100%);
-      transform: translateY(-4px);
-      border-color: rgba(255, 122, 0, 0.6);
-      box-shadow: 
-        0 0 40px rgba(255, 122, 0, 0.6),
-        0 0 80px rgba(255, 122, 0, 0.4),
-        0 16px 48px rgba(255, 122, 0, 0.3);
-    }
-
-    .cta-secondary {
-      padding: 1rem 2.5rem;
-      background: transparent;
-      color: #ff7a00;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: all 0.3s ease;
-      border: 2px solid #ff7a00;
-      cursor: pointer;
-    }
-
-    .cta-secondary:hover {
-      background: rgba(255, 122, 0, 0.1);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 25px rgba(255, 122, 0, 0.2);
-    }
-
-    /* Section Styles */
-    .about-section,
-    .services-section,
-    .portfolio-section,
-    .contact-section {
-      padding: 6rem 0;
-    }
-
-    .about-section {
-      background: #0f0f0f;
-    }
-
-    .services-section {
-      background: #1a1a1a;
-    }
-
-    .portfolio-section {
-      background: #0f0f0f;
-    }
-
-    .contact-section {
-      background: #1a1a1a;
-    }
-
-    .section-title {
-      font-size: 3rem;
-      font-weight: 700;
-      text-align: center;
-      margin: 0 0 3rem;
-      color: #ff7a00;
-      text-shadow: 0 0 20px rgba(255, 122, 0, 0.3);
-    }
-
-    /* About Section */
-    .about-content {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 4rem;
-      align-items: center;
-    }
-
-    .about-description {
-      font-size: 1.2rem;
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.8);
-      margin: 0 0 3rem;
-    }
-
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 2rem;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-number {
-      display: block;
-      font-size: 2.5rem;
-      font-weight: 800;
-      color: #ff7a00;
-      margin-bottom: 0.5rem;
-    }
-
-    .stat-label {
-      font-size: 0.9rem;
-      color: rgba(255, 255, 255, 0.7);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .about-card {
-      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-      padding: 2.5rem;
-      border-radius: 20px;
-      text-align: center;
-      border: 1px solid rgba(255, 122, 0, 0.2);
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-    }
-
-    .card-icon {
-      font-size: 4rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .about-card h3 {
-      font-size: 1.5rem;
-      color: #ff7a00;
-      margin: 0 0 1rem;
-    }
-
-    .about-card p {
-      color: rgba(255, 255, 255, 0.8);
-      line-height: 1.6;
-    }
-
-    /* Services Section */
-    .services-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 2rem;
-    }
-
-    .service-card {
-      background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
-      padding: 2.5rem;
-      border-radius: 15px;
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 1px solid rgba(255, 122, 0, 0.1);
-    }
-
-    .service-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(255, 122, 0, 0.2);
-      border-color: rgba(255, 122, 0, 0.3);
-    }
-
-    .service-icon {
-      font-size: 3.5rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .service-title {
-      font-size: 1.5rem;
-      color: #ff7a00;
-      margin: 0 0 1rem;
-    }
-
-    .service-description {
-      color: rgba(255, 255, 255, 0.8);
-      line-height: 1.6;
-    }
-
-    /* Portfolio Section */
-    .portfolio-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 2rem;
-    }
-
-    .portfolio-item {
-      background: #2a2a2a;
-      border-radius: 15px;
-      overflow: hidden;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      cursor: pointer;
-    }
-
-    .portfolio-item:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(255, 122, 0, 0.2);
-    }
-
-    .portfolio-thumbnail {
-      width: 100%;
-      height: 250px;
-      background: linear-gradient(135deg, #3a3a3a 0%, #2a2a2a 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .portfolio-icon {
-      font-size: 4rem;
-      opacity: 0.7;
-    }
-
-    .portfolio-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(255, 122, 0, 0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .portfolio-item:hover .portfolio-overlay {
-      opacity: 1;
-    }
-
-    .play-button {
-      font-size: 3rem;
-      color: #ffffff;
-    }
-
-    .portfolio-info {
-      padding: 1.5rem;
-    }
-
-    .portfolio-info h3 {
-      margin: 0 0 0.5rem;
-      font-size: 1.3rem;
-      color: #ff7a00;
-    }
-
-    .portfolio-info p {
-      margin: 0;
-      color: rgba(255, 255, 255, 0.8);
-      font-size: 0.95rem;
-    }
-
-    /* Contact Section */
-    .contact-content {
-      text-align: center;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .contact-description {
-      font-size: 1.2rem;
-      color: rgba(255, 255, 255, 0.8);
-      margin: 0 0 3rem;
-      line-height: 1.6;
-    }
-
-    .contact-email {
-      display: inline-block;
-      font-size: 1.5rem;
-      color: #ff7a00;
-      text-decoration: none;
-      margin-bottom: 2rem;
-      padding: 1rem 2rem;
-      border: 2px solid #ff7a00;
-      border-radius: 50px;
-      transition: all 0.3s ease;
-    }
-
-    .contact-email:hover {
-      background: rgba(255, 122, 0, 0.1);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(255, 122, 0, 0.3);
-    }
-
-    .contact-social {
-      margin-top: 2rem;
-    }
-
-    .social-label {
-      display: block;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 1rem;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-    }
-
-    .social-link {
-      color: #ff9a3c;
-      text-decoration: none;
-      padding: 0.5rem 1rem;
-      border: 1px solid rgba(255, 154, 60, 0.3);
-      border-radius: 25px;
-      transition: all 0.3s ease;
-    }
-
-    .social-link:hover {
-      background: rgba(255, 154, 60, 0.1);
-      border-color: #ff9a3c;
-    }
-
-    /* Animations */
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes glow {
-      0% { 
-        text-shadow: 
-          0 0 20px rgba(255, 122, 0, 0.5),
-          0 0 40px rgba(255, 122, 0, 0.3),
-          0 0 60px rgba(255, 122, 0, 0.2);
-      }
-      100% { 
-        text-shadow: 
-          0 0 30px rgba(255, 122, 0, 0.8),
-          0 0 60px rgba(255, 122, 0, 0.5),
-          0 0 90px rgba(255, 122, 0, 0.3);
-      }
-    }
-
-    @keyframes fadeInUp {
-      0% {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes progressFill {
-      0% { width: 0%; }
-      100% { width: 100%; }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .loading-name {
-        font-size: 2.5rem;
-      }
-
-      .loading-progress {
-        width: 250px;
-      }
-
-      @media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.5rem;
-    /* Gradient effect mobile-এও work করবে */
-  }
-}
-
-      .hero-subtitle {
-        font-size: 1.3rem;
-      }
-
-      .hero-description {
-        font-size: 1rem;
-      }
-
-      .hero-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .section-title {
-        font-size: 2rem;
-      }
-
-      .about-content {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-      }
-
-      .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
-
-      .services-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .portfolio-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .social-links {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .container {
-        padding: 0 1rem;
-      }
-
-      .about-section,
-      .services-section,
-      .portfolio-section,
-      .contact-section {
-        padding: 4rem 0;
-      }
-
-      /* Mobile Navigation */
-      .menu-toggle {
-        display: block;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 70px;
-        left: 0;
-        width: 100%;
-        background: rgba(10, 10, 10, 0.95);
-        backdrop-filter: blur(10px);
-        flex-direction: column;
-        align-items: center;
-        padding: 2rem 0;
-        transform: translateY(-100%);
-        opacity: 0;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      }
-
-      .nav-links.active {
-        transform: translateY(0);
-        opacity: 1;
-      }
-
-      .nav-links li {
-        margin: 1rem 0;
-      }
-    }
-  </style>
-  <style>@view-transition { navigation: auto; }</style>
-  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
- </head>
- <body>
-  <!-- Loading Screen -->
-  <div class="loading-screen" id="loadingScreen">
-    <div class="loading-content">
-      <h1 class="loading-name" id="loadingName">Welcome to Arshad's Realm</h1>
-      <div class="loading-progress-container">
-        <div class="loading-progress-bar" id="loadingProgressBar"></div>
-      </div>
-      <p class="loading-text" id="loadingText">Loading Experience...</p>
-    </div>
-  </div>
-
-  <!-- Main Content -->
-  <div class="main-content" id="mainContent">
-    <!-- Navigation Bar -->
-    <nav class="navbar" id="navbar">
-      <div class="navbar-container">
-       <a href="#" class="logo">
-  <img src="https://github.com/arshadmit/io/blob/main/My%20logo.svg" alt="AR Arshad Logo" style="height: 40px; width: auto;">
-</a>
-  
-        <div class="menu-toggle" id="menuToggle">☰</div>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="#home">Home</a></li>
-          <li><a href="#about">About Me</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#portfolio">Portfolio</a></li>
-          <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a href="#contact" class="cta-nav">Hire Me</a>
-      </div>
+        .glass-nav { 
+            background: rgba(61, 13, 25, 0.95); 
+            backdrop-filter: blur(10px); 
+            border-bottom: 1px solid rgba(235,182,91,0.2); 
+        }
+        
+        .quiz-radio { display: none; }
+        .quiz-label {
+            display: inline-block;
+            padding: 8px 24px;
+            border-radius: 9999px;
+            border: 1px solid rgba(235, 182, 91, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #d1d5db;
+        }
+        .quiz-radio:checked + .quiz-label {
+            background-color: #EBB65B;
+            color: #3D0D19;
+            border-color: #EBB65B;
+            font-weight: 600;
+        }
+
+        .toast-enter { transform: translateX(-100%) translateY(100px); opacity: 0; }
+        .toast-active { transform: translateX(0) translateY(0); opacity: 1; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        .toast-leave { transform: translateX(-100%) translateY(100px); opacity: 0; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+        
+        .book-mockup {
+            box-shadow: 10px 10px 30px rgba(0,0,0,0.5);
+            border-radius: 4px 12px 12px 4px;
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+        .book-mockup::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(255,255,255,0.2);
+            z-index: 10;
+        }
+        .book-mockup:hover {
+            transform: translateY(-5px);
+        }
+        
+        /* Stacked bundle effect for hero section */
+        .bundle-stack-1 { transform: rotate(-5deg) translateX(-20px) scale(0.9); z-index: 1; filter: brightness(0.7); }
+        .bundle-stack-2 { transform: rotate(5deg) translateX(20px) scale(0.95); z-index: 2; filter: brightness(0.85); }
+        .bundle-stack-3 { transform: rotate(0deg); z-index: 3; }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="fixed w-full z-50 glass-nav transition-all duration-300 top-0 hidden md:block" id="navbar">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0 flex items-center cursor-pointer text-white" onclick="window.scrollTo(0,0)">
+                    <span class="font-bold text-xl tracking-tight"><i class="fa-solid fa-rings text-brand-gold mr-2"></i>দাম্পত্য রসায়ন</span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#contents" class="text-gray-300 hover:text-brand-gold text-sm transition">বইয়ের তালিকা</a>
+                    <a href="#preview" class="text-gray-300 hover:text-brand-gold text-sm transition">প্রিভিউ</a>
+                    <a href="#reviews" class="text-gray-300 hover:text-brand-gold text-sm transition">রিভিউ</a>
+                    <a href="#faq" class="text-gray-300 hover:text-brand-gold text-sm transition">প্রশ্ন</a>
+                    <a href="#pricing" class="bg-brand-gold hover:bg-brand-goldDark text-brand-900 px-5 py-1.5 rounded-full text-sm font-bold transition">Buy Bundle</a>
+                </div>
+            </div>
+        </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero-section" id="home">
-      <div class="hero-content">
-        <h1 class="hero-title" id="heroTitle">Arshad Work</h1>
-        <p class="hero-subtitle" id="heroSubtitle">Creative Video Editor &amp; Visual Storyteller</p>
-        <p class="hero-description" id="heroDescription">Transforming ideas into compelling visual narratives that captivate and inspire audiences worldwide.</p>
-        <div class="hero-buttons">
-          <a href="#portfolio" class="cta-primary">View Work</a>
-          <button class="cta-secondary" onclick="restartLoading()">Experience</button>
+    <section class="bg-brand-900 text-white min-h-[90vh] flex items-center pt-16 relative bg-hero-pattern overflow-hidden">
+        <div class="absolute inset-0 opacity-10 flex items-center justify-center">
+            <div class="w-64 h-32 border-8 border-brand-gold rounded-full absolute left-[-10%] opacity-50 transform rotate-12"></div>
+            <div class="w-64 h-32 border-8 border-brand-gold rounded-full absolute right-[15%] opacity-50 transform rotate-12"></div>
         </div>
-      </div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12 mt-10 md:mt-0">
+            <div class="flex flex-col md:flex-row items-center gap-12 justify-between">
+                
+                <!-- Text Content -->
+                <div class="w-full md:w-1/2 text-center md:text-left">
+                    <div class="inline-block border border-brand-gold/30 rounded-full px-4 py-1 mb-6 bg-brand-800/50">
+                        <span class="text-brand-gold text-sm font-medium">21-in-1 Mega PDF Bundle</span>
+                    </div>
+                    <p class="text-gray-300 mb-2">অজ্ঞতা ও সংকোচ কাটিয়ে</p>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                        দাম্পত্য জীবন হোক <br>
+                        <span class="text-brand-gold">সুখময় ও আত্মবিশ্বাসী</span>
+                    </h1>
+                    <p class="text-sm md:text-base text-gray-300 mb-8 max-w-lg mx-auto md:mx-0 leading-relaxed">
+                        বিয়ে, যৌবন, শারীরিক ও মানসিক বোঝাপড়ার সঠিক দিকনির্দেশনা নিয়ে ২১টি এক্সক্লুসিভ ই-বুকের বিশাল কালেকশন। লাজুকতা ভেঙে জানুন সুস্থ ও রোমান্টিক জীবনের বিজ্ঞানসম্মত উপায়।
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start items-center">
+                        <a href="#pricing" class="bg-brand-gold hover:bg-brand-goldDark text-brand-900 px-8 py-3 rounded-full font-bold transition flex items-center justify-center w-full sm:w-auto">
+                            বান্ডেল কিনুন <i class="fa-solid fa-arrow-right ml-2 text-sm"></i>
+                        </a>
+                        <a href="#preview" class="text-white hover:text-brand-gold px-6 py-3 font-medium transition w-full sm:w-auto text-center border border-white/20 rounded-full hover:border-brand-gold/50">
+                            বইগুলোর প্রিভিউ দেখুন
+                        </a>
+                    </div>
+                    
+                    <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-8 text-xs text-gray-400">
+                        <span class="flex items-center"><i class="fa-solid fa-check text-brand-gold mr-1"></i> ২১টি সম্পূর্ণ ই-বুক</span>
+                        <span class="flex items-center"><i class="fa-solid fa-check text-brand-gold mr-1"></i> আজীবন অ্যাক্সেস</span>
+                        <span class="flex items-center"><i class="fa-solid fa-check text-brand-gold mr-1"></i> ১০০% গোপনীয়তা</span>
+                    </div>
+                </div>
+                
+                <!-- Bundle Mockup -->
+                <div class="w-full md:w-1/2 flex justify-center items-center h-96 relative">
+                    <!-- Book 1 (Back left) -->
+                    <div class="absolute w-56 h-80 bg-brand-800 rounded-lg book-mockup overflow-hidden border border-brand-gold/10 flex flex-col items-center justify-center bundle-stack-1">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-700 to-brand-900"></div>
+                        <div class="z-10 text-center px-4">
+                            <p class="text-brand-gold text-[8px] uppercase mb-2">Exclusive</p>
+                            <h3 class="text-xl font-bold text-white mb-1">নারী-পুরুষের</h3>
+                            <p class="text-[10px] text-gray-300">গোপনীয় কথা</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Book 2 (Back right) -->
+                    <div class="absolute w-56 h-80 bg-brand-800 rounded-lg book-mockup overflow-hidden border border-brand-gold/10 flex flex-col items-center justify-center bundle-stack-2">
+                        <div class="absolute inset-0 bg-gradient-to-bl from-[#2a0811] to-[#4a1020]"></div>
+                        <div class="z-10 text-center px-4">
+                            <h3 class="text-2xl font-bold text-white mb-1">বিয়ের<br>প্রস্তুতি</h3>
+                        </div>
+                    </div>
+
+                    <!-- Book 3 (Front center) -->
+                    <div class="absolute w-60 h-88 bg-brand-800 rounded-lg book-mockup overflow-hidden border border-brand-gold/30 flex flex-col items-center justify-center bundle-stack-3 shadow-[0_20px_50px_rgba(0,0,0,0.6)]">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand-700 to-brand-900"></div>
+                        <!-- Decorative border -->
+                        <div class="absolute inset-2 border border-brand-gold/20 rounded-md"></div>
+                        
+                        <div class="absolute top-0 w-full h-1/4 flex justify-around items-start px-6 opacity-40">
+                            <div class="w-1 h-full bg-brand-gold rounded-b-sm"></div>
+                            <div class="w-1 h-3/4 bg-brand-gold rounded-b-sm"></div>
+                            <div class="w-1 h-5/6 bg-brand-gold rounded-b-sm"></div>
+                        </div>
+
+                        <div class="z-10 text-center px-6 w-full mt-8">
+                            <p class="text-brand-gold text-[10px] tracking-widest uppercase mb-4 font-semibold">Premium Collection</p>
+                            <h3 class="text-3xl font-bold text-white mb-3 leading-tight">দাম্পত্য<br>রসায়ন</h3>
+                            <div class="w-12 h-0.5 bg-brand-gold mx-auto mb-3"></div>
+                            <p class="text-xs text-gray-300">সুখময় জীবনের গাইডলাইন</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- About Section -->
-    <section class="about-section" id="about">
-      <div class="container">
-        <div class="about-content">
-          <div class="about-text">
-            <h2 class="section-title" id="aboutTitle">About Me</h2>
-            <p class="about-description" id="aboutDescription">With over 5 years of experience in video editing and post-production, I specialize in creating cinematic content that tells powerful stories. From commercial projects to creative documentaries, I bring technical expertise and artistic vision to every project.</p>
-            <div class="stats-grid">
-              <div class="stat-item"><span class="stat-number">150+</span> <span class="stat-label">Projects Completed</span></div>
-              <div class="stat-item"><span class="stat-number">50+</span> <span class="stat-label">Happy Clients</span></div>
-              <div class="stat-item"><span class="stat-number">5+</span> <span class="stat-label">Years Experience</span></div>
+    <section class="py-20 bg-brand-cream text-gray-800">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <p class="text-sm text-gray-500 uppercase tracking-widest mb-2">The Reality</p>
+                <h2 class="text-3xl font-bold mb-4">অজ্ঞতাই অশান্তির মূল কারণ</h2>
+                <p class="text-gray-600">দাম্পত্য জীবনে সঠিক জ্ঞানের অভাব কীভাবে প্রভাব ফেলে, চলুন দেখি।</p>
             </div>
-          </div>
-          <div class="about-visual">
-            <div class="about-card">
-              <div class="card-icon">🎬</div>
-              <h3>Creative Vision</h3>
-              <p>Bringing stories to life through innovative editing techniques and artistic storytelling.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Large Stat Box -->
+                <div class="bg-brand-900 text-white p-8 rounded-3xl flex flex-col justify-center">
+                    <p class="text-brand-gold text-sm font-medium mb-1">Lack of Knowledge</p>
+                    <h3 class="text-6xl font-bold mb-4">৮০%</h3>
+                    <p class="text-gray-400 text-sm">দম্পতির প্রথম দিকে শারীরিক ও মানসিক বোঝাপড়ায় সমস্যা হয় শুধুমাত্র সঠিক যৌন শিক্ষার অভাবে।</p>
+                </div>
+                
+                <!-- Right Side Stats -->
+                <div class="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-center">
+                        <p class="text-gray-500 text-xs uppercase mb-1">Communication</p>
+                        <h3 class="text-4xl font-bold text-brand-900 mb-2">৬০%</h3>
+                        <p class="text-gray-500 text-xs">দাম্পত্য কলহের মূল কারণ হলো নিজেদের একান্ত শারীরিক চাহিদা নিয়ে সঙ্গীর সাথে কথা বলতে সংকোচ বোধ করা।</p>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex flex-col justify-center">
+                        <p class="text-gray-500 text-xs uppercase mb-1">Preparation</p>
+                        <h3 class="text-4xl font-bold text-brand-900 mb-2">৯০%</h3>
+                        <p class="text-gray-500 text-xs">তরুণ-তরুণী বিয়ের আগে কোনো সঠিক গাইডলাইন পান না, যার ফলে তারা ইন্টারনেট বা বন্ধুদের ভুল তথ্যের ওপর নির্ভর করেন।</p>
+                    </div>
+                    
+                    <div class="md:col-span-2 bg-white p-6 rounded-3xl shadow-sm border border-gray-100 flex items-center justify-between">
+                        <div>
+                            <p class="text-gray-500 text-xs uppercase mb-1">The Solution</p>
+                            <h3 class="text-2xl font-bold text-brand-900">জ্ঞানই আত্মবিশ্বাস</h3>
+                        </div>
+                        <p class="text-gray-500 text-xs text-right max-w-[200px]">সঠিক বই পড়া আপনার ভয়, ভ্রান্তি ও সংকোচ দূর করে সম্পর্ককে মধুর করে তোলে।</p>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
 
-    <!-- Services Section -->
-    <section class="services-section" id="services">
-      <div class="container">
-        <h2 class="section-title" id="servicesTitle">Services</h2>
-        <div class="services-grid">
-          <div class="service-card">
-            <div class="service-icon">🎥</div>
-            <h3 class="service-title">Video Editing</h3>
-            <p class="service-description">Professional video editing for commercials, music videos, and corporate content with attention to detail and storytelling.</p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon">🎞️</div>
-            <h3 class="service-title">Post Production</h3>
-            <p class="service-description">Complete post-production services including color grading, sound design, and visual effects for polished final products.</p>
-          </div>
-          <div class="service-card">
-            <div class="service-icon">📹</div>
-            <h3 class="service-title">Content Creation</h3>
-            <p class="service-description">End-to-end content creation for social media, documentaries, and branded content that engages and converts.</p>
-          </div>
+    <section class="py-24 bg-brand-900 text-white" id="quiz-section">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-brand-gold font-medium text-xs uppercase tracking-wider block mb-2">Self Assessment</span>
+                <h2 class="text-3xl font-bold mt-2 mb-4">আপনার দাম্পত্য প্রস্তুতি কতটা?</h2>
+                <p class="text-gray-400 text-sm">নিজের কাছে সৎ থেকে উত্তর দিন। ফল আপনার কাছেই থাকবে।</p>
+            </div>
+
+            <div class="max-w-2xl mx-auto">
+                <div class="text-right mb-4">
+                    <span class="text-brand-gold text-sm font-medium" id="yes-counter-display">০/৫</span>
+                </div>
+
+                <div class="space-y-4" id="quiz-questions-list">
+                    <!-- Javascript will populate this -->
+                </div>
+                
+                <div class="mt-10 text-center">
+                    <button onclick="calculateQuizResult()" class="bg-brand-gold text-brand-900 px-8 py-3 rounded-full font-bold hover:bg-brand-goldDark transition w-full sm:w-auto hidden" id="quiz-submit-btn">
+                        ফলাফল দেখুন
+                    </button>
+                </div>
+
+                <div id="quiz-result-area" class="hidden mt-8 text-center bg-brand-800 p-8 rounded-2xl border border-brand-gold/20">
+                    <h3 class="text-2xl font-bold text-brand-gold mb-2">আপনার স্কোর: <span id="final-score"></span>/৫ (হ্যাঁ)</h3>
+                    <p class="text-gray-300 mb-6" id="result-message"></p>
+                    <a href="#pricing" class="bg-brand-gold text-brand-900 px-6 py-2 rounded-full font-bold inline-block">
+                        মেগা বান্ডেলটি সংগ্রহ করুন
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </section>
 
-    <!-- Portfolio Section -->
-    <section class="portfolio-section" id="portfolio">
-      <div class="container">
-        <h2 class="section-title" id="portfolioTitle">Featured Work</h2>
-        <div class="portfolio-grid">
-          <div class="portfolio-item">
-            <div class="portfolio-thumbnail">
-              <div class="portfolio-icon">🎬</div>
-              <div class="portfolio-overlay"><span class="play-button">▶</span></div>
+    <section class="py-20 bg-brand-cream" id="contents">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-gray-500 font-medium text-xs uppercase tracking-wider">Inside The Bundle</span>
+                <h2 class="text-3xl font-bold text-brand-900 mt-2 mb-4">২১টি এক্সক্লুসিভ ই-বুক</h2>
+                <p class="text-gray-600 text-sm max-w-xl mx-auto">বিয়ের আগে বা পরে, নারী বা পুরুষ—সবার জন্য প্রয়োজনীয় বিষয়গুলো ৩টি মূল ক্যাটাগরিতে সাজানো হয়েছে।</p>
+                <div class="mt-4 flex justify-center items-center gap-4 text-xs font-medium text-gray-500">
+                    <span><i class="fa-solid fa-file-pdf text-red-500 mr-1"></i> ২১টি PDF ফাইল</span>
+                    <span>•</span>
+                    <span>High Quality</span>
+                </div>
             </div>
-            <div class="portfolio-info">
-              <h3>Brand Commercial</h3>
-              <p>30-second lifestyle brand commercial with dynamic editing and color grading</p>
+
+            <div class="space-y-4">
+                <!-- Part 1 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleTOC('toc1', this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-full bg-brand-50 text-brand-900 flex items-center justify-center font-bold text-sm">১</div>
+                            <div>
+                                <h3 class="font-bold text-brand-900">বিয়ের প্রস্তুতি ও পারিবারিক জীবন</h3>
+                                <p class="text-xs text-gray-500 mt-1">বিয়ের আগের মানসিক প্রস্তুতি ও আদর্শ পরিবার গঠনের গাইড।</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-up text-gray-400 transition-transform duration-300" id="icon-toc1"></i>
+                    </button>
+                    <div class="px-6 pb-6 pt-2 pl-[4.5rem]" id="toc1">
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600">
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>বিয়ের প্রস্তুতি</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>আদর্শ পরিবার গঠনে ৪০ টি উপদেশ</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>বিয়ের উপহার</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>বিয়ের আগে ফ্যান্টাসি নয়, হোক বাস্তব</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>মুহসিনীন</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>মুহসানাত</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Part 2 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleTOC('toc2', this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-sm">২</div>
+                            <div>
+                                <h3 class="font-bold text-brand-900">দাম্পত্য রসায়ন ও মনস্তত্ত্ব</h3>
+                                <p class="text-xs text-gray-500 mt-1">স্বামী-স্ত্রীর মানসিক বোঝাপড়া এবং ভালোবাসা বৃদ্ধির উপায়।</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300" id="icon-toc2"></i>
+                    </button>
+                    <div class="px-6 pb-6 pt-2 pl-[4.5rem] hidden" id="toc2">
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600">
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>দাম্পত্য রসায়ন</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>দাম্পত্যের ছন্দপতন</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>ওগো শুনছো (দাম্পত্য)</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>মিলনতত্ত্ব</span></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Part 3 -->
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+                    <button class="w-full px-6 py-5 text-left flex justify-between items-center focus:outline-none" onclick="toggleTOC('toc3', this)">
+                        <div class="flex items-center gap-4">
+                            <div class="w-8 h-8 rounded-full bg-gray-100 text-gray-600 flex items-center justify-center font-bold text-sm">৩</div>
+                            <div>
+                                <h3 class="font-bold text-brand-900">যৌন শিক্ষা ও অন্তরঙ্গতা</h3>
+                                <p class="text-xs text-gray-500 mt-1">সুখময় শারীরিক সম্পর্ক ও বিজ্ঞানসম্মত যৌন শিক্ষার ভাণ্ডার।</p>
+                            </div>
+                        </div>
+                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform duration-300" id="icon-toc3"></i>
+                    </button>
+                    <div class="px-6 pb-6 pt-2 pl-[4.5rem] hidden" id="toc3">
+                        <ul class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-600">
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>সুখময় যৌনজীবন</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>নারী-পুরুষের একান্ত গোপনীয় কথা</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>বয়ঃসন্ধিকালের যৌন শিক্ষা</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>বড়দের যৌন শিক্ষা</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>কামরস গুপ্ত (পার্ট ১, ২ ও ৩)</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>বৃহৎ রতি শাস্ত্র</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>১০০-কাম-পজিশন</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>Night Game - Anisur Rahman</span></li>
+                            <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-2 text-xs"></i> <span>30-best-sex-positions (Bonus)</span></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          </div>
-          <div class="portfolio-item">
-            <div class="portfolio-thumbnail">
-              <div class="portfolio-icon">🎵</div>
-              <div class="portfolio-overlay"><span class="play-button">▶</span></div>
-            </div>
-            <div class="portfolio-info">
-              <h3>Music Video</h3>
-              <p>Creative music video with synchronized editing and visual effects</p>
-            </div>
-          </div>
-          <div class="portfolio-item">
-            <div class="portfolio-thumbnail">
-              <div class="portfolio-icon">📺</div>
-              <div class="portfolio-overlay"><span class="play-button">▶</span></div>
-            </div>
-            <div class="portfolio-info">
-              <h3>Documentary</h3>
-              <p>15-minute documentary with compelling narrative structure</p>
-            </div>
-          </div>
         </div>
-      </div>
     </section>
 
-    <!-- Contact Section -->
-    <section class="contact-section" id="contact">
-      <div class="container">
-        <div class="contact-content">
-          <h2 class="section-title" id="contactTitle">Let's Create Together</h2>
-          <p class="contact-description" id="contactDescription">Ready to bring your vision to life? Let's discuss your project and create something amazing together.</p>
-          <div class="contact-info">
-            <a href="mailto:hello@ararshadislam.com" class="contact-email" id="contactEmail">hello@ararshadislam.com</a>
-            <div class="contact-social">
-              <span class="social-label">Follow my work:</span>
-              <div class="social-links">
-                <a href="#" class="social-link">LinkedIn</a>
-                <a href="#" class="social-link">Instagram</a>
-                <a href="#" class="social-link">Behance</a>
-              </div>
+    <section class="py-24 bg-brand-cream" id="preview">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-gray-500 font-medium text-xs uppercase tracking-wider block mb-2">Book Previews</span>
+                <h2 class="text-3xl font-bold text-brand-900 mt-2 mb-4">বান্ডেলের সেরা ৫টি বই একনজরে</h2>
+                <p class="text-gray-600 text-sm">কিনবেন কিনা সিদ্ধান্ত নিতে সেরা কয়েকটি বইয়ের প্রচ্ছদ ও কোয়ালিটি যাচাই করে নিন।</p>
             </div>
-          </div>
+
+            <!-- Previews Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 lg:gap-4">
+                
+                <!-- Preview 1 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex flex-col group hover:shadow-xl transition-all">
+                    <div class="bg-brand-900 h-64 flex flex-col items-center justify-center relative p-6 border-b-4 border-brand-gold">
+                        <div class="absolute inset-0 bg-gradient-to-tr from-black/40 to-transparent"></div>
+                        <p class="text-brand-gold text-[10px] tracking-widest uppercase mb-3 z-10 font-semibold">Premium E-Book</p>
+                        <h3 class="text-2xl font-bold text-white mb-2 leading-tight text-center z-10">দাম্পত্য<br>রসায়ন</h3>
+                    </div>
+                    <div class="p-5 text-center bg-white flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-brand-900 text-sm mb-2">দাম্পত্য রসায়ন</h4>
+                            <p class="text-xs text-gray-500 line-clamp-3 mb-4">স্বামী-স্ত্রীর শারীরিক ও মানসিক সম্পর্ককে কীভাবে আরও মধুর ও দীর্ঘস্থায়ী করা যায়, তার বিজ্ঞানসম্মত আলোচনা।</p>
+                        </div>
+                        <button class="w-full text-brand-900 border border-brand-900 hover:bg-brand-900 hover:text-white px-4 py-2 rounded-full text-xs font-bold transition">
+                            স্যাম্পল পড়ুন
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview 2 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex flex-col group hover:shadow-xl transition-all">
+                    <div class="bg-[#2c1018] h-64 flex flex-col items-center justify-center relative p-6 border-b-4 border-brand-gold">
+                        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPgo8cmVjdCB3aWR0aD0iOCIgaGVpZ2h0PSI4IiBmaWxsPSIjMmMxMDE4Ij48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDBMOCA4Wk04IDBMMCA4WiIgc3Ryb2tlPSIjM2QxODIzIiBzdHJva2Utd2lkdGg9IjEiPjwvcGF0aD4KPC9zdmc+')] opacity-20"></div>
+                        <p class="text-brand-gold text-[10px] tracking-widest uppercase mb-3 z-10 font-semibold">Best Seller</p>
+                        <h3 class="text-2xl font-bold text-white mb-2 leading-tight text-center z-10">সুখময়<br>যৌনজীবন</h3>
+                    </div>
+                    <div class="p-5 text-center bg-white flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-brand-900 text-sm mb-2">সুখময় যৌনজীবন</h4>
+                            <p class="text-xs text-gray-500 line-clamp-3 mb-4">শারীরিক সম্পর্কের সঠিক নিয়ম, ভুল ধারণাগুলো ভাঙা এবং তৃপ্তিদায়ক জীবনের বিস্তারিত গাইড।</p>
+                        </div>
+                        <button class="w-full text-brand-900 border border-brand-900 hover:bg-brand-900 hover:text-white px-4 py-2 rounded-full text-xs font-bold transition">
+                            স্যাম্পল পড়ুন
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview 3 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex flex-col group hover:shadow-xl transition-all">
+                    <div class="bg-[#1f1b1c] h-64 flex flex-col items-center justify-center relative p-6 border-b-4 border-brand-gold">
+                        <div class="absolute w-full h-full border-2 border-brand-gold/10 m-2 rounded-sm"></div>
+                        <h3 class="text-xl font-bold text-white mb-2 leading-tight text-center z-10">নারী-পুরুষের<br><span class="text-brand-gold">একান্ত গোপনীয়</span><br>কথা</h3>
+                    </div>
+                    <div class="p-5 text-center bg-white flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-brand-900 text-sm mb-2">একান্ত গোপনীয় কথা</h4>
+                            <p class="text-xs text-gray-500 line-clamp-3 mb-4">বিপরীত লিঙ্গের মনস্তত্ত্ব, চাওয়া-পাওয়া এবং লজ্জার কারণে না বলা কথাগুলোর উন্মোচন।</p>
+                        </div>
+                        <button class="w-full text-brand-900 border border-brand-900 hover:bg-brand-900 hover:text-white px-4 py-2 rounded-full text-xs font-bold transition">
+                            স্যাম্পল পড়ুন
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview 4 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex flex-col group hover:shadow-xl transition-all">
+                    <div class="bg-gradient-to-b from-[#4a1222] to-[#250911] h-64 flex flex-col items-center justify-center relative p-6 border-b-4 border-brand-gold">
+                        <i class="fa-solid fa-house-chimney-heart text-brand-gold/20 text-5xl absolute top-6"></i>
+                        <h3 class="text-xl font-bold text-white mb-2 leading-tight text-center z-10 mt-8">আদর্শ পরিবার<br>গঠনে</h3>
+                        <p class="text-brand-gold font-bold">৪০টি উপদেশ</p>
+                    </div>
+                    <div class="p-5 text-center bg-white flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-brand-900 text-sm mb-2">আদর্শ পরিবার গঠন</h4>
+                            <p class="text-xs text-gray-500 line-clamp-3 mb-4">একটি সুখী, শান্তিময় ও আদর্শ মুসলিম পরিবার গড়ে তোলার জন্য মহামূল্যবান ৪০টি উপদেশ।</p>
+                        </div>
+                        <button class="w-full text-brand-900 border border-brand-900 hover:bg-brand-900 hover:text-white px-4 py-2 rounded-full text-xs font-bold transition">
+                            স্যাম্পল পড়ুন
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Preview 5 -->
+                <div class="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden flex flex-col group hover:shadow-xl transition-all">
+                    <div class="bg-[#521222] h-64 flex flex-col items-center justify-center relative p-6 border-b-4 border-brand-gold">
+                         <div class="absolute inset-2 border border-dashed border-white/20"></div>
+                        <p class="text-brand-gold text-[10px] tracking-widest uppercase mb-3 z-10 font-semibold">For Youth</p>
+                        <h3 class="text-2xl font-bold text-white mb-2 leading-tight text-center z-10">বিয়ের<br>প্রস্তুতি</h3>
+                    </div>
+                    <div class="p-5 text-center bg-white flex-grow flex flex-col justify-between">
+                        <div>
+                            <h4 class="font-bold text-brand-900 text-sm mb-2">বিয়ের প্রস্তুতি</h4>
+                            <p class="text-xs text-gray-500 line-clamp-3 mb-4">বিয়ের আগে পাত্র-পাত্রী নির্বাচন থেকে শুরু করে বাসর রাত পর্যন্ত করণীয় ও বর্জনীয়।</p>
+                        </div>
+                        <button class="w-full text-brand-900 border border-brand-900 hover:bg-brand-900 hover:text-white px-4 py-2 rounded-full text-xs font-bold transition">
+                            স্যাম্পল পড়ুন
+                        </button>
+                    </div>
+                </div>
+
+            </div>
         </div>
-      </div>
     </section>
-  </div>
 
-  <script>
-    // Existing JavaScript code remains the same, with the addition of mobile menu functionality
-    
-    const defaultConfig = {
-      background_color: '#2d1b69',
-      surface_color: '#1a0f3d',
-      text_color: '#ffffff',
-      primary_action_color: '#ff7a00',
-      secondary_action_color: '#ff9a3c',
-      font_family: 'Inter',
-      font_size: 16,
-      name_text: 'AR Arshad',
-      loading_duration: '3',
-      hero_title: 'AR Arshad',
-      hero_subtitle: 'Creative Video Editor & Visual Storyteller',
-      hero_description: 'Transforming ideas into compelling visual narratives that captivate and inspire audiences worldwide.',
-      about_title: 'About Me',
-      about_description: 'With over 5 years of experience in video editing and post-production, I specialize in creating cinematic content that tells powerful stories. From commercial projects to creative documentaries, I bring technical expertise and artistic vision to every project.',
-      services_title: 'Services',
-      portfolio_title: 'Featured Work',
-      contact_title: "Let's Create Together",
-      contact_description: 'Ready to bring your vision to life? Let\'s discuss your project and create something amazing together.',
-      contact_email: 'hello@ararshadislam.com'
-    };
+    <section class="py-20 bg-brand-cream" id="reviews">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-gray-500 font-medium text-xs uppercase tracking-wider block mb-2">Reader Reviews</span>
+                <h2 class="text-3xl font-bold text-brand-900 mt-2 mb-4">পাঠকদের জীবনের পরিবর্তন</h2>
+            </div>
 
-    let loadingTimeout;
-    let progressInterval;
-    const totalLoadingTime = 2500; // 2.5 seconds
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full">
+                    <div class="text-brand-gold text-xs flex space-x-1 mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-6 flex-grow">"বিয়ের আগে অনেক ভয় কাজ করতো। ইন্টারনেট থেকে পাওয়া ভুল তথ্যের কারণে দ্বিধায় ছিলাম। এই বান্ডেলের 'বিয়ের প্রস্তুতি' ও 'সুখময় যৌনজীবন' বই দুটি আমার সব ভ্রান্তি দূর করেছে।"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold text-xs">র</div>
+                        <div>
+                            <h4 class="font-bold text-brand-900 text-xs">রফিকুল ইসলাম</h4>
+                            <p class="text-[10px] text-gray-500">ঢাকা</p>
+                        </div>
+                    </div>
+                </div>
 
-    function startLoading() {
-      const loadingScreen = document.getElementById('loadingScreen');
-      const mainContent = document.getElementById('mainContent');
-      const progressBar = document.getElementById('loadingProgressBar');
-      const loadingText = document.getElementById('loadingText');
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex flex-col h-full">
+                    <div class="text-brand-gold text-xs flex space-x-1 mb-3">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-gray-600 text-sm mb-6 flex-grow">"বিয়ের ৩ বছর পর আমাদের মাঝে এক ধরনের দূরত্ব সৃষ্টি হয়েছিল। 'দাম্পত্য রসায়ন' বইটি পড়ার পর আমরা একে অপরের না বলা কথাগুলো বুঝতে পেরেছি। সম্পর্কটা আবার নতুন মনে হচ্ছে।"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 bg-pink-100 rounded-full flex items-center justify-center text-pink-600 font-bold text-xs">ফা</div>
+                        <div>
+                            <h4 class="font-bold text-brand-900 text-xs">ফারিয়া জামান</h4>
+                            <p class="text-[10px] text-gray-500">চট্টগ্রাম</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-      // Reset states - ensure main content is hidden during loading
-      loadingScreen.classList.remove('hidden');
-      mainContent.classList.remove('visible');
-      progressBar.style.width = '0%';
+    <section class="py-24 bg-brand-cream" id="pricing">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-gray-500 font-medium text-xs uppercase tracking-wider block mb-2">Mega Bundle Offer</span>
+                <h2 class="text-3xl font-bold text-brand-900 mt-2 mb-4">২১টি বইয়ের সম্পূর্ণ প্যাকেজ</h2>
+            </div>
 
-      let progress = 0;
-      const intervalTime = 50;
-      const increment = (100 / (totalLoadingTime / intervalTime));
+            <div class="space-y-3 mb-10">
+                <div class="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <div class="w-10 h-10 bg-brand-50 rounded-lg flex items-center justify-center text-brand-900">
+                            <i class="fa-solid fa-layer-group"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-brand-900 text-sm">দাম্পত্য ও যৌবন বিষয়ক ২১টি ই-বুক</h4>
+                            <p class="text-xs text-gray-600 font-medium">বিয়ের প্রস্তুতি থেকে শুরু করে অন্তরঙ্গ জীবনের সম্পূর্ণ গাইডলাইন।</p>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="text-[10px] text-gray-400">সাধারণ মূল্য</p>
+                        <p class="text-sm font-bold text-gray-400 line-through">৳২৫০০</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center bg-gray-100 rounded-lg p-3 text-sm text-gray-600 mb-12">
+                সবগুলো বই আলাদা কিনলে খরচ: <span class="line-through mx-1">৳২৫০০+</span> | আজকের বিশেষ মেগা অফার: <span class="font-bold text-brand-900 ml-1">৳২৯৯</span>
+            </div>
 
-      // Start progress bar animation
-      progressInterval = setInterval(() => {
-        progress += increment;
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(progressInterval);
-        }
-        progressBar.style.width = progress + '%';
+            <div class="bg-brand-900 text-white rounded-3xl p-8 max-w-md mx-auto relative overflow-hidden shadow-2xl">
+                <div class="absolute top-4 right-4 bg-brand-gold text-brand-900 font-bold py-1 px-3 rounded text-[10px] uppercase">৮৮% ছাড়</div>
+                
+                <h4 class="text-xl font-bold mb-1">বিবাহ ও যৌবন মেগা বান্ডেল (২১টি PDF)</h4>
+                
+                <div class="flex items-end gap-2 mt-4 mb-6">
+                    <span class="text-4xl font-bold text-white">৳২৯৯</span>
+                    <span class="text-sm text-gray-400 line-through mb-1">৳২৫০০</span>
+                </div>
+                
+                <ul class="text-sm text-gray-300 space-y-3 mb-8 text-left w-full border-t border-brand-800 pt-6">
+                    <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-3 text-xs"></i> <span>২১টি সম্পূর্ণ ই-বুক (PDF Format)</span></li>
+                    <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-3 text-xs"></i> <span>১০০% গোপনীয়তার সাথে ইমেইলে ডেলিভারি</span></li>
+                    <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-3 text-xs"></i> <span>মোবাইল, ট্যাব বা কম্পিউটারে পড়া যাবে</span></li>
+                    <li class="flex items-start"><i class="fa-solid fa-check text-brand-gold mt-1 mr-3 text-xs"></i> <span>একবার কিনলে আজীবন অ্যাক্সেস</span></li>
+                </ul>
+                
+                <button class="w-full bg-gradient-to-b from-brand-gold to-[#D49E41] hover:from-[#F2C57B] hover:to-brand-gold text-brand-900 py-3 rounded-full font-bold shadow-lg transition text-sm mb-4">
+                    এখনই কিনে নিন
+                </button>
+                <div class="flex items-center justify-center text-[10px] text-gray-400 gap-2">
+                    <i class="fa-solid fa-shield-halved"></i> <span>সিকিউরড পেমেন্ট ও ইনস্ট্যান্ট এক্সেস</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-20 bg-white" id="faq">
+        <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">FAQ</p>
+                <h2 class="text-2xl font-bold text-brand-900">কেনার আগে সাধারণ প্রশ্নসমূহ</h2>
+            </div>
+            
+            <div class="space-y-3">
+                <div class="border border-gray-200 rounded-lg overflow-hidden bg-white">
+                    <button class="faq-btn w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" aria-expanded="false">
+                        <span class="font-bold text-brand-900 text-sm">বইগুলো কীভাবে পাব? গোপনীয়তা থাকবে তো?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-4 text-gray-600 text-xs leading-relaxed">
+                        ১০০% গোপনীয়তা বজায় রাখা হবে। পেমেন্ট সম্পন্ন হওয়ার সাথে সাথেই আপনার দেওয়া ইমেইলে ২১টি বইয়ের Google Drive লিংক চলে যাবে। কেউ জানবে না আপনি কী কিনেছেন।
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg overflow-hidden bg-white">
+                    <button class="faq-btn w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" aria-expanded="false">
+                        <span class="font-bold text-brand-900 text-sm">পেমেন্ট কীভাবে করব?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-4 text-gray-600 text-xs leading-relaxed">
+                        বিকাশ, নগদ বা রকেটের মাধ্যমে খুব সহজেই পেমেন্ট করতে পারবেন। 'এখনই কিনে নিন' বাটনে ক্লিক করলে পেমেন্ট নির্দেশনা পেয়ে যাবেন।
+                    </div>
+                </div>
+
+                <div class="border border-gray-200 rounded-lg overflow-hidden bg-white">
+                    <button class="faq-btn w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" aria-expanded="false">
+                        <span class="font-bold text-brand-900 text-sm">এগুলো কি ছাপা বই, নাকি PDF?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 text-xs transition-transform duration-300"></i>
+                    </button>
+                    <div class="faq-content hidden px-5 pb-4 text-gray-600 text-xs leading-relaxed">
+                        এখানে থাকা ২১টি বই-ই ডিজিটাল PDF ফরম্যাটে। মোবাইল, ট্যাব বা কম্পিউটার, যেকোনো জায়গায় ডাউনলোড করে পড়তে পারবেন।
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-brand-900 text-white pt-16 pb-8 border-t border-brand-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12 text-center md:text-left">
+                <div>
+                    <div class="flex items-center justify-center md:justify-start mb-4">
+                        <span class="font-bold text-xl tracking-tight text-white"><i class="fa-solid fa-rings text-brand-gold mr-2"></i>দাম্পত্য রসায়ন</span>
+                    </div>
+                    <p class="text-gray-400 text-xs max-w-xs mx-auto md:mx-0">সুখী ও আত্মবিশ্বাসী দাম্পত্য জীবনের সেরা গাইডলাইন।</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-brand-gold text-sm mb-4">দ্রুত লিংক</h4>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li><a href="#contents" class="hover:text-white transition">বইয়ের তালিকা</a></li>
+                        <li><a href="#preview" class="hover:text-white transition">প্রিভিউ</a></li>
+                        <li><a href="#pricing" class="hover:text-white transition">বান্ডেল কিনুন</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold text-brand-gold text-sm mb-4">যোগাযোগ</h4>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li>info@dampotyo.shop</li>
+                        <li>Message us on Facebook</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-brand-800 pt-8 text-center flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-gray-500 text-[10px]">© ২০২৬ দাম্পত্য রসায়ন মেগা বান্ডেল। সর্বস্বত্ব সংরক্ষিত।</p>
+                <div class="flex gap-2">
+                    <div class="w-8 h-5 bg-white rounded flex items-center justify-center text-[8px] text-pink-600 font-bold">bKash</div>
+                    <div class="w-8 h-5 bg-white rounded flex items-center justify-center text-[8px] text-orange-500 font-bold">Nagad</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating Notification -->
+    <div id="purchase-toast" class="fixed bottom-6 left-4 bg-white p-3 rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.1)] border border-gray-100 flex items-center space-x-3 z-50 toast-enter max-w-[280px] w-full hidden">
+        <div class="w-10 h-12 bg-brand-900 rounded-sm flex-shrink-0 flex items-center justify-center relative border border-brand-gold/30">
+            <span class="text-brand-gold text-[6px] uppercase tracking-wider absolute top-2">Bundle</span>
+            <i class="fa-solid fa-check-double text-white/50 text-[10px] mt-2"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+            <p class="text-xs font-bold text-brand-900 truncate" id="toast-name">একজন ক্রেতা (ঢাকা)</p>
+            <p class="text-[10px] text-gray-500 truncate">২১টি বইয়ের বান্ডেল কিনেছেন</p>
+            <p class="text-[9px] text-green-600 font-medium mt-0.5" id="toast-time">২ মিনিট আগে</p>
+        </div>
+    </div>
+
+    <script>
+        // TOC Accordion
+        window.toggleTOC = function(id, btn) {
+            const content = document.getElementById(id);
+            const icon = document.getElementById('icon-' + id);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            }
+        };
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const content = button.nextElementSibling;
+                const icon = button.querySelector('i');
+                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+                document.querySelectorAll('.faq-content').forEach(c => {
+                    if (c !== content) c.classList.add('hidden');
+                });
+                document.querySelectorAll('.faq-btn i').forEach(i => {
+                    if(i !== icon) i.style.transform = 'rotate(0deg)';
+                });
+                document.querySelectorAll('.faq-btn').forEach(b => {
+                    if(b !== button) b.setAttribute('aria-expanded', 'false');
+                });
+
+                if (isExpanded) {
+                    content.classList.add('hidden');
+                    icon.style.transform = 'rotate(0deg)';
+                    button.setAttribute('aria-expanded', 'false');
+                } else {
+                    content.classList.remove('hidden');
+                    icon.style.transform = 'rotate(180deg)';
+                    button.setAttribute('aria-expanded', 'true');
+                }
+            });
+        });
+
+        // Quiz Logic
+        const quizData = [
+            "১. দাম্পত্য জীবনের শারীরিক সম্পর্ক নিয়ে আপনার মনে কোনো ভয় বা সংকোচ কাজ করে?",
+            "২. ইন্টারনেট থেকে পাওয়া যৌন বিষয়ক তথ্যের ওপর কি আপনি পুরোপুরি নির্ভর করেন?",
+            "৩. বিপরীত লিঙ্গের শারীরিক ও মানসিক মনস্তত্ত্ব সম্পর্কে আপনার জ্ঞান কি অসম্পূর্ণ মনে হয়?",
+            "৪. নিজের একান্ত চাহিদার কথা সঙ্গীকে জানাতে কি আপনি লজ্জা পান?",
+            "৫. বিয়ের আগে সঠিক যৌন ও পারিবারিক শিক্ষার কোনো বই কি আপনি পড়েছেন? (না হলে 'হ্যাঁ' দিন)"
+        ];
         
-        // Update loading text based on progress
-        if (progress < 30) {
-          loadingText.textContent = 'Loading Experience...';
-        } else if (progress < 70) {
-          loadingText.textContent = 'Preparing Content...';
-        } else {
-          loadingText.textContent = 'Almost Ready...';
-        }
-      }, intervalTime);
-
-      // Complete loading after total time
-      loadingTimeout = setTimeout(() => {
-        // First show main content
-        mainContent.classList.add('visible');
+        const quizListContainer = document.getElementById('quiz-questions-list');
+        const submitBtn = document.getElementById('quiz-submit-btn');
+        let answeredQuestions = new Set();
         
-        // Then hide loading screen after a very short delay
+        quizData.forEach((q, index) => {
+            const qDiv = document.createElement('div');
+            qDiv.className = 'flex flex-col sm:flex-row justify-between items-start sm:items-center py-4 border-b border-brand-800 gap-4';
+            qDiv.innerHTML = `
+                <p class="text-sm md:text-base text-gray-200 flex-1">${q}</p>
+                <div class="flex gap-2 flex-shrink-0">
+                    <input type="radio" name="q${index}" id="q${index}-yes" value="yes" class="quiz-radio" onchange="handleRadioChange(${index})">
+                    <label for="q${index}-yes" class="quiz-label text-sm border border-brand-gold/30 hover:border-brand-gold rounded-full px-5 py-1.5 cursor-pointer transition text-gray-400">হ্যাঁ</label>
+                    
+                    <input type="radio" name="q${index}" id="q${index}-no" value="no" class="quiz-radio" onchange="handleRadioChange(${index})">
+                    <label for="q${index}-no" class="quiz-label text-sm border border-gray-600 hover:border-gray-400 rounded-full px-5 py-1.5 cursor-pointer transition text-gray-400">না</label>
+                </div>
+            `;
+            quizListContainer.appendChild(qDiv);
+        });
+
+        window.handleRadioChange = function(qIndex) {
+            answeredQuestions.add(qIndex);
+            
+            let yesCount = 0;
+            for(let i=0; i<quizData.length; i++){
+                const yesRadio = document.getElementById(`q${i}-yes`);
+                if(yesRadio && yesRadio.checked) yesCount++;
+            }
+            
+            document.getElementById('yes-counter-display').innerText = `${yesCount}/৫`;
+
+            if(answeredQuestions.size === quizData.length) {
+                submitBtn.classList.remove('hidden');
+            }
+        };
+
+        window.calculateQuizResult = function() {
+            let yesCount = 0;
+            for(let i=0; i<quizData.length; i++){
+                const yesRadio = document.getElementById(`q${i}-yes`);
+                if(yesRadio && yesRadio.checked) yesCount++;
+            }
+            
+            document.getElementById('quiz-questions-list').classList.add('hidden');
+            submitBtn.classList.add('hidden');
+            document.getElementById('yes-counter-display').parentElement.classList.add('hidden');
+            
+            const rArea = document.getElementById('quiz-result-area');
+            rArea.classList.remove('hidden');
+            document.getElementById('final-score').innerText = yesCount;
+            
+            let msg = "";
+            if (yesCount <= 1) msg = "দারুণ! আপনার দাম্পত্য জ্ঞান বেশ ভালো। এই বান্ডেলটি আপনার সম্পর্ককে আরও মধুর করতে সাহায্য করবে।";
+            else if (yesCount <= 3) msg = "আপনার মনে কিছু সংকোচ ও বিভ্রান্তি আছে। সঠিক গাইডলাইন পেলে আপনার দাম্পত্য জীবন আরও সুখময় হবে।";
+            else msg = "উচ্চ মাত্রার বিভ্রান্তি ও ভীতি রয়েছে। অজ্ঞতা দূর করে আত্মবিশ্বাসী দাম্পত্য শুরু করতে এই বান্ডেলটি আপনার এখনই পড়া উচিত।";
+            
+            document.getElementById('result-message').innerText = msg;
+        };
+
+        // Fake Notifications
+        const buyers = [
+            { name: "একজন ক্রেতা (ঢাকা)", time: "২ মিনিট" },
+            { name: "একজন ক্রেতা (চট্টগ্রাম)", time: "৫ মিনিট" },
+            { name: "একজন ক্রেতা (সিলেট)", time: "১২ মিনিট" },
+            { name: "একজন ক্রেতা (রাজশাহী)", time: "১৫ মিনিট" }
+        ];
+
+        const toast = document.getElementById('purchase-toast');
+        const toastName = document.getElementById('toast-name');
+        const toastTime = document.getElementById('toast-time');
+        
+        function showNotification() {
+            const randomBuyer = buyers[Math.floor(Math.random() * buyers.length)];
+            toastName.innerText = randomBuyer.name;
+            toastTime.innerText = `অর্ডার সম্পন্ন ${randomBuyer.time} আগে`;
+            
+            toast.classList.remove('toast-enter', 'toast-leave', 'hidden');
+            toast.classList.add('toast-active');
+            
+            setTimeout(() => {
+                toast.classList.remove('toast-active');
+                toast.classList.add('toast-leave');
+            }, 5000);
+        }
+
         setTimeout(() => {
-          loadingScreen.classList.add('hidden');
-          // Scroll to top when loading completes
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }, 100); // Reduced delay to 100ms
-      }, totalLoadingTime);
-    }
+            showNotification();
+            setInterval(() => {
+                showNotification();
+            }, Math.random() * 15000 + 20000);
+        }, 3000);
 
-    function restartLoading() {
-      // Clear any existing timeouts/intervals
-      if (loadingTimeout) {
-        clearTimeout(loadingTimeout);
-      }
-      if (progressInterval) {
-        clearInterval(progressInterval);
-      }
-      
-      // Scroll to top before restarting
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      
-      // Restart loading
-      startLoading();
-    }
-
-    // Mobile menu toggle
-    document.addEventListener('DOMContentLoaded', function() {
-      const menuToggle = document.getElementById('menuToggle');
-      const navLinks = document.getElementById('navLinks');
-      
-      if (menuToggle && navLinks) {
-        menuToggle.addEventListener('click', function() {
-          navLinks.classList.toggle('active');
-        });
-      }
-      
-      // Close mobile menu when clicking on a link
-      const navItems = document.querySelectorAll('.nav-links a');
-      navItems.forEach(item => {
-        item.addEventListener('click', function() {
-          navLinks.classList.remove('active');
-        });
-      });
-      
-      // Start the loading animation
-      startLoading();
-      
-      // Add smooth scrolling to navigation links
-      const navLinksAll = document.querySelectorAll('a[href^="#"]');
-      navLinksAll.forEach(link => {
-        link.addEventListener('click', function(e) {
-          e.preventDefault();
-          const targetId = this.getAttribute('href');
-          const targetSection = document.querySelector(targetId);
-          if (targetSection) {
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      });
-    });
-
-    // Navbar scroll effect
-    window.addEventListener('scroll', function() {
-      const navbar = document.getElementById('navbar');
-      if (window.scrollY > 100) {
-        navbar.style.background = 'rgba(10, 10, 10, 0.95)';
-        navbar.style.backdropFilter = 'blur(10px)';
-      } else {
-        navbar.style.background = 'rgba(10, 10, 10, 0.9)';
-        navbar.style.backdropFilter = 'blur(10px)';
-      }
-    });
-
-    // Rest of your existing JavaScript functions (onConfigChange, mapToCapabilities, etc.)
-    async function onConfigChange(config) {
-      // Your existing implementation
-    }
-
-    function mapToCapabilities(config) {
-      // Your existing implementation
-    }
-
-    function mapToEditPanelValues(config) {
-      // Your existing implementation
-    }
-
-    if (window.elementSdk) {
-      window.elementSdk.init({
-        defaultConfig,
-        onConfigChange,
-        mapToCapabilities,
-        mapToEditPanelValues
-      });
-    }
-  </script>
- </body>
-
+    </script>
+</body>
 </html>
-
